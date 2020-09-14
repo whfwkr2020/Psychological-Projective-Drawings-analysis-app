@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="31"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="22"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="17dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/toMenu"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:background="@drawable/backward" />
+
+        <TextView
+            android:layout_width="103dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="2020년 5월 13일"
+            android:textColor="#77AAAD"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="93dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/submithtp"
+            android:layout_width="17dp"
+            android:layout_height="22dp"
+            android:background="@drawable/submit" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="588"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <ImageView
+            android:layout_width="388dp"
+            android:layout_height="81dp"
+            android:layout_gravity="center"
+            android:background="@drawable/palete" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            />
+        <EditText
+            android:id="@+id/jour"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backColor"
+            android:gravity="top"
+            android:textColor="#77AAAD"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

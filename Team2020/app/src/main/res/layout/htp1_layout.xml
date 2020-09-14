@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="31"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="22"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="17dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/toPick"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:background="@drawable/backward" />
+
+        <TextView
+            android:layout_width="112dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="집을 그리세요."
+            android:textColor="#77AAAD"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="102dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/submithtp"
+            android:layout_width="17dp"
+            android:layout_height="22dp"
+            android:background="@drawable/submit" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="588"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            />
+        <ImageView
+            android:layout_width="388dp"
+            android:layout_height="81dp"
+            android:layout_gravity="center"
+            android:background="@drawable/palete" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
