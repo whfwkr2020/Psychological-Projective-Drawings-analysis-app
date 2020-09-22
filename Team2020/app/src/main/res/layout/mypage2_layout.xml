@@ -27,7 +27,6 @@
             android:layout_height="17dp"
             android:background="@drawable/backward" />
 
-
     </LinearLayout>
 
     <LinearLayout

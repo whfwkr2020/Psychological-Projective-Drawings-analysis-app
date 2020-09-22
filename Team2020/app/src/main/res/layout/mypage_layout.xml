@@ -75,33 +75,16 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="515"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="40dp"
         android:orientation="vertical"
         >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:background="#F0F7F8" />
-
-        <Button
-            android:id="@+id/infochange12"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/infochange"
-            />
-
 
     </LinearLayout>
 
 
 </LinearLayout>
+
+
