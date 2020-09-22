@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-        Button menumenu, alert, test, journal, mypage;
+    Button menumenu, alert, test, journal, mypage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         popupWindow.dismiss();
                     }});
+                //주변 병원 찾기 버튼
+                Button map_btn = (Button) popupView.findViewById(R.id.map_btn);
+                map_btn.setOnClickListener(new ImageButton.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "지도", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 popupWindow.showAsDropDown(alert, 50, -30);
         }
         }); //알림 버튼 선택시

@@ -33,7 +33,7 @@
             android:gravity="left" />
 
         <TextView
-            android:layout_width="318dp"
+            android:layout_width="280dp"
             android:layout_height="match_parent" />
 
         <Button

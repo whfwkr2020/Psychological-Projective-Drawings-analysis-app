@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="31"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="22"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="17dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/toMenu"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:background="@drawable/backward" />
+
+        <TextView
+            android:layout_width="103dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="2020년 5월 13일"
+            android:textColor="#77AAAD"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="93dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/submithtp"
+            android:layout_width="17dp"
+            android:layout_height="22dp"
+            android:background="@drawable/submit" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="588"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/colorPickerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="#77AAAD"
+                android:text="색상선택" />
+
+            <Button
+                android:id="@+id/thickPickerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#77AAAD"
+                android:layout_marginLeft="20dp"
+                android:text="굵기입력" />
+
+            <Button
+                android:id="@+id/eraseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#77AAAD"
+                android:layout_marginLeft="20dp"
+                android:text="지우기" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#77AAAD"
+                    android:layout_marginLeft="60dp"
+                    android:textColor="#77AAAD"
+                    android:text="BUTT" />
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#77AAAD"
+                    android:layout_marginLeft="37dp"
+                    android:textColor="#77AAAD"
+                    android:text="ROUND" />
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="#77AAAD"
+                    android:layout_marginLeft="25dp"
+                    android:textColor="#77AAAD"
+                    android:text="SQUARE" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:orientation="vertical">
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/jour"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backColor"
+            android:gravity="top"
+            android:textColor="#77AAAD"
+            />
+    </LinearLayout>
+
+</LinearLayout>

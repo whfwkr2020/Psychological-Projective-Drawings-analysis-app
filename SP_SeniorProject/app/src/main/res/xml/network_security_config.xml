@@ -1,0 +1,7 @@
+<?xml version ="1.0" encoding ="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="ture">
+        <domain includeSubdomains="true">maps.daum-img.net</domain>
+    </domain-config>
+</network-security-config>
+    <!-- 카카오 지도가 targetSdkVersion 27 이하에서만 작동하는 것을 29에서도 작동할 수 있도록 하기 위한 코드 -->
