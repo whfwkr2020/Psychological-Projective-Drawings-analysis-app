@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -38,10 +39,20 @@ public class Journal extends AppCompatActivity {
     MyPaintView view;
     int tColor, n = 0;
 
+    long now = System.currentTimeMillis();
+    Date date = new Date(now);
+    SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy년 MM월 dd일");
+    String formatDate = sdfNow.format(date);
+
+    TextView dateNow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.journal_layout);
+
+        dateNow = (TextView) findViewById(R.id.dateNow);
+        dateNow.setText(formatDate);
 
         menu = findViewById(R.id.toMenu);
         jour = findViewById(R.id.jour);

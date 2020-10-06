@@ -19,28 +19,28 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="17dp"
+            android:layout_width="10dp"
             android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/toMenu"
-            android:layout_width="17dp"
+            android:layout_width="20dp"
             android:layout_height="17dp"
             android:background="@drawable/backward" />
 
         <TextView
-            android:layout_width="103dp"
+            android:layout_width="97dp"
             android:layout_height="match_parent" />
 
         <TextView
-            android:layout_width="150dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:text="2020년 5월 13일"
+            android:id="@+id/dateNow"
             android:textColor="#77AAAD"
             android:textSize="20dp" />
 
         <TextView
-            android:layout_width="93dp"
+            android:layout_width="97dp"
             android:layout_height="match_parent" />
 
         <Button
