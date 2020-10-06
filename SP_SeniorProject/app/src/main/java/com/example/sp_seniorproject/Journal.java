@@ -1,13 +1,18 @@
 package com.example.sp_seniorproject;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -15,6 +20,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -84,6 +96,7 @@ public class Journal extends AppCompatActivity {
         Button btn = findViewById(R.id.colorPickerButton);
         Button btn2 = findViewById(R.id.thickPickerButton);
         Button btn3 = findViewById(R.id.eraseButton);
+        Button btn4 = findViewById(R.id.saveButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +115,39 @@ public class Journal extends AppCompatActivity {
                 view.clear(1);
             }
         });
+//        btn4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/AnimationCapture";
+//                @SuppressLint("WrongViewCast") final FrameLayout capture = (FrameLayout) findViewById(R.id.container);//캡쳐할영역(프레임레이아웃)
+//
+//                File file = new File(path);
+//                if(!file.exists()){
+//                    file.mkdirs();
+//                    Toast.makeText(login.this, "폴더가 생성되었습니다.", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                SimpleDateFormat day = new SimpleDateFormat("yyyyMMddHHmmss");
+//                Date date = new Date();
+//                capture.buildDrawingCache();
+//                Bitmap captureview = capture.getDrawingCache();
+//
+//                FileOutputStream fos = null;
+//                try{
+//                    fos = new FileOutputStream(path+"/Capture"+day.format(date)+".jpeg");
+//                    captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path + "/Capture" + day.format(date) + ".JPEG")));
+//                    Toast.makeText(login.this, "저장완료", Toast.LENGTH_SHORT).show();
+//                    fos.flush();
+//                    fos.close();
+//                    capture.destroyDrawingCache();
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 
     private void show() {
