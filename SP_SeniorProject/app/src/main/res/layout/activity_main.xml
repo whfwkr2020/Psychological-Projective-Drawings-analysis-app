@@ -21,28 +21,36 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="23"
             android:layout_height="match_parent"
             />
 
         <Button
             android:id="@+id/menu"
-            android:layout_width="23dp"
+            android:layout_width="0dp"
+            android:layout_weight="23"
             android:layout_height="match_parent"
             android:background="@drawable/menu"
             android:gravity="left" />
 
         <TextView
-            android:layout_width="280dp"
+            android:layout_width="0dp"
+            android:layout_weight="318"
             android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/alert"
-            android:layout_width="23dp"
+            android:layout_width="0dp"
+            android:layout_weight="23"
             android:layout_height="match_parent"
             android:background="@drawable/alert1"
             android:gravity="right" />
-        //위치 조정 필요
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="23"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
@@ -52,9 +60,6 @@
         android:layout_weight="592"
         android:orientation="vertical"
         android:padding="24dp">
-
-
-        //텍스트 위치 조정 필요
 
         <Button
             android:id="@+id/test"
