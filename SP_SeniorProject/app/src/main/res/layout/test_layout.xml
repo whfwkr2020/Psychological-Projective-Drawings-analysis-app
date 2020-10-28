@@ -18,17 +18,24 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="17dp"
+            android:layout_width="0dp"
+            android:layout_weight="17"
             android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/back"
-            android:layout_width="17dp"
+            android:layout_width="0dp"
+            android:layout_weight="17"
             android:layout_height="match_parent"
 
             android:background="@drawable/backward"
             android:gravity="left" />
-        //뒤로가기 버튼, 이미지 및 위치 조정 필요
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="378"
+            android:layout_height="match_parent"
+            />
 
     </LinearLayout>
 
@@ -53,18 +60,25 @@
         android:layout_width="match_parent"
         android:layout_height="30dp" />
     <LinearLayout
-        android:layout_width="399dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="0dp"
+            android:layout_weight="10"
             android:layout_height="match_parent" />
 
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="390"
             android:layout_height="match_parent"
             android:background="@drawable/pass1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

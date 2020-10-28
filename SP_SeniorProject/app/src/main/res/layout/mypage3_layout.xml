@@ -45,29 +45,50 @@
             android:layout_height="50dp"
             android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="20"
+                android:layout_height="match_parent"
+                />
 
             <Button
                 android:id="@+id/my"
-                android:layout_width="110dp"
+                android:layout_width="0dp"
+                android:layout_weight="110"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
                 android:background="@drawable/userselect2" />
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="20"
+                android:layout_height="match_parent"
+                />
 
             <Button
                 android:id="@+id/testrecord"
-                android:layout_width="110dp"
+                android:layout_width="0dp"
+                android:layout_weight="110"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
                 android:background="@drawable/test" />
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="20"
+                android:layout_height="match_parent"
+                />
 
             <Button
                 android:id="@+id/journalrecord"
-                android:layout_width="110dp"
+                android:layout_width="0dp"
+                android:layout_weight="110"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
                 android:background="@drawable/drawing2" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="20"
+                android:layout_height="match_parent"
+                />
 
 
         </LinearLayout>

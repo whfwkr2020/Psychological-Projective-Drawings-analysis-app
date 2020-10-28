@@ -18,23 +18,32 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="17dp"
+            android:layout_width="0dp"
+            android:layout_weight="17"
             android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/pitrback"
-            android:layout_width="17dp"
+            android:layout_width="0dp"
+            android:layout_weight="17"
             android:layout_height="17dp"
             android:background="@drawable/backward" />
 
 
         <TextView
-            android:layout_width="210dp"
+            android:layout_width="0dp"
+            android:layout_weight="210"
             android:layout_height="wrap_content"
             android:layout_marginLeft="130dp"
             android:text="분석 결과"
             android:textColor="#77AAAD"
             android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="39"
+            android:layout_height="match_parent"
+            />
 
     </LinearLayout>
 

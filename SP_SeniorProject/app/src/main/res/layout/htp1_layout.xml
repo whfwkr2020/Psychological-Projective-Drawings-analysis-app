@@ -18,35 +18,46 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="17dp"
+            android:layout_width="0dp"
+            android:layout_weight="17"
             android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/toPick"
-            android:layout_width="17dp"
+            android:layout_width="0dp"
+            android:layout_weight="17"
             android:layout_height="17dp"
             android:background="@drawable/backward" />
 
         <TextView
-            android:layout_width="112dp"
+            android:layout_width="0dp"
+            android:layout_weight="112"
             android:layout_height="match_parent" />
 
         <TextView
-            android:layout_width="130dp"
+            android:layout_width="0dp"
+            android:layout_weight="130"
             android:layout_height="wrap_content"
             android:text="집을 그리세요."
             android:textColor="#77AAAD"
             android:textSize="20dp" />
 
         <TextView
-            android:layout_width="102dp"
+            android:layout_width="0dp"
+            android:layout_weight="102"
             android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/submithtp"
-            android:layout_width="17dp"
+            android:layout_width="0dp"
+            android:layout_weight="17"
             android:layout_height="22dp"
             android:background="@drawable/submit" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="12"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
@@ -67,7 +78,8 @@
 
             <Button
                 android:id="@+id/colorPickerButton"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="70"
                 android:layout_height="40dp"
                 android:layout_marginLeft="35dp"
                 android:background="#77AAAD"
@@ -75,7 +87,8 @@
 
             <Button
                 android:id="@+id/thickPickerButton"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="70"
                 android:layout_height="40dp"
                 android:background="#77AAAD"
                 android:layout_marginLeft="20dp"
@@ -83,7 +96,8 @@
 
             <Button
                 android:id="@+id/eraseButton"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="70"
                 android:layout_height="40dp"
                 android:background="#77AAAD"
                 android:layout_marginLeft="20dp"
@@ -91,10 +105,12 @@
 
             <Button
                 android:id="@+id/saveButton"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
+                android:layout_weight="70"
                 android:layout_height="40dp"
                 android:background="#77AAAD"
                 android:layout_marginLeft="20dp"
+                android:layout_marginRight="35dp"
                 android:text="저장" />
         </LinearLayout>
 

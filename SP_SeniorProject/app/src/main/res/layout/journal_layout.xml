@@ -19,35 +19,46 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="0dp"
+            android:layout_weight="10"
             android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/toMenu"
-            android:layout_width="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="20"
             android:layout_height="17dp"
             android:background="@drawable/backward" />
 
         <TextView
-            android:layout_width="97dp"
+            android:layout_width="0dp"
+            android:layout_weight="97"
             android:layout_height="match_parent" />
 
         <TextView
-            android:layout_width="160dp"
+            android:layout_width="0dp"
+            android:layout_weight="160"
             android:layout_height="wrap_content"
             android:id="@+id/dateNow"
             android:textColor="#77AAAD"
             android:textSize="20dp" />
 
         <TextView
-            android:layout_width="97dp"
+            android:layout_width="0dp"
+            android:layout_weight="97"
             android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/submithtp"
-            android:layout_width="17dp"
+            android:layout_width="0dp"
+            android:layout_weight="17"
             android:layout_height="22dp"
             android:background="@drawable/submit" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
