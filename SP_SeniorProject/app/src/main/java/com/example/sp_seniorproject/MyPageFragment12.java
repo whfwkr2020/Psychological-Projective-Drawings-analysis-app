@@ -14,10 +14,10 @@ import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MyPageFragment1#newInstance} factory method to
+ * Use the {@link MyPageFragment12#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyPageFragment1 extends Fragment implements View.OnClickListener {
+public class MyPageFragment12 extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -27,9 +27,9 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
 
-    private Button button1;
+    private Button button2;
 
-    public MyPageFragment1() {
+    public MyPageFragment12() {
         // Required empty public constructor
     }
 
@@ -39,11 +39,11 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MyPageFragment1.
+     * @return A new instance of fragment MyPageFragment12.
      */
     // TODO: Rename and change types and number of parameters
-    public static MyPageFragment1 newInstance(String param1, String param2) {
-        MyPageFragment1 fragment = new MyPageFragment1();
+    public static MyPageFragment12 newInstance(String param1, String param2) {
+        MyPageFragment12 fragment = new MyPageFragment12();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,16 +64,17 @@ public class MyPageFragment1 extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_page1,container,false);
-        button1 = view.findViewById(R.id.infochange12);
+        View view = inflater.inflate(R.layout.fragment_my_page12, container, false);
+        button2 = view.findViewById(R.id.infochange13);
 
-        button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        MyPageFragment12 fragment = new MyPageFragment12();
+        MyPageFragment1 fragment = new MyPageFragment1();
         changeFragment(fragment);
     }
 
