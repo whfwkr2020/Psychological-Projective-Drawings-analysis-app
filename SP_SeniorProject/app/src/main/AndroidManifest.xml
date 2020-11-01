@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sp_seniorproject">
+    package="com.example.sp_seniorproject" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:theme="@style/AppTheme" >
+        <activity android:name=".login.SplashActivity" >
+        </activity>
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/network_security_config" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".login.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".login.SplashActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".map.MapActivity" />
-        <activity android:name=".Journal"/>
-        <activity android:name=".JournalResult"/>
-        <activity android:name=".MyPage"/>
-        <activity android:name=".MyPage12"/>
-        <activity android:name=".MyPage2"/>
-        <activity android:name=".MyPage3"/>
-        <activity android:name=".MyPage32"/>
-        <activity android:name=".MyPage33"/>
-        <activity android:name=".Test"/>
-        <activity android:name=".PITR"/>
-        <activity android:name=".PITRresult"/>
-        <activity android:name=".HTP"/>
-        <activity android:name=".HTPresult"/>
-        <activity android:name=".TestRecord"/>
-        <activity android:name=".JournalRecord"/>
-        <activity android:name=".Alert123"
+        <activity android:name=".Journal" />
+        <activity android:name=".JournalResult" />
+        <activity android:name=".MyPage" />
+        <activity android:name=".MyPage12" />
+        <activity android:name=".MyPage2" />
+        <activity android:name=".MyPage3" />
+        <activity android:name=".MyPage32" />
+        <activity android:name=".MyPage33" />
+        <activity android:name=".Test" />
+        <activity android:name=".PITR" />
+        <activity android:name=".PITRresult" />
+        <activity android:name=".HTP" />
+        <activity android:name=".HTPresult" />
+        <activity android:name=".TestRecord" />
+        <activity android:name=".JournalRecord" />
+        <activity
+            android:name=".Alert123"
             android:theme="@style/AppTheme.CustomTheme" />
 
         <meta-data
