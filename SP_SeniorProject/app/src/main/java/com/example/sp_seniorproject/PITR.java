@@ -1,5 +1,6 @@
 package com.example.sp_seniorproject;
 
+import android.app.Activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,6 +44,8 @@ import static android.os.Environment.DIRECTORY_PICTURES;
 public class PITR extends AppCompatActivity {
     Button toPick, sub;
 
+    public static Activity pitr;
+
     MyPaintView view;
     int tColor, n = 0;
 
@@ -53,22 +56,26 @@ public class PITR extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pitr1_layout);
 
+        pitr = PITR.this;
+
         toPick = findViewById(R.id.toPick2);
         sub = findViewById(R.id.submitpitr);
 
         toPick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(v.getContext(), Test.class);
-                startActivity(intent1);
+              pitr.finish();
+               overridePendingTransition(0, 0);
             }
         });
 
         sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(v.getContext(), PITRresult.class);
-                startActivity(intent1);
+              Intent intent1 = new Intent(v.getContext(), PITRresult.class);
+             startActivity(intent1);
+             overridePendingTransition(0, 0);
+             pitr.finish();
             }
         });
         view = new MyPaintView(this);

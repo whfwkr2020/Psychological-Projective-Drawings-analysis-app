@@ -1,5 +1,6 @@
 package com.example.sp_seniorproject;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,10 +15,14 @@ public class MyPage extends AppCompatActivity {
 
     Button menu, user, test, journal;
 
+    public static Activity mypage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage_layout);
+
+        mypage = MyPage.this;
 
         MyPageFragment1 fragment1 = new MyPageFragment1();
         changeFragment(fragment1);
@@ -31,8 +36,8 @@ public class MyPage extends AppCompatActivity {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent10 = new Intent(v.getContext(), MainActivity.class);
-                startActivity(intent10);
+              mypage.finish();
+               overridePendingTransition(0, 0);
             }
         }); //menu 버튼 선택시
 

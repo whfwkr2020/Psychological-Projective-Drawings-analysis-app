@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent1 = new Intent(v.getContext(), Test.class);
                 startActivity(intent1);
+                overridePendingTransition(0, 0);
             }
         }); //테스트 선택시
 
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent2 = new Intent(v.getContext(), Journal.class);
                 startActivity(intent2);
+                overridePendingTransition(0, 0);
             }
         }); //그림일기 선택시
 
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent3 = new Intent(v.getContext(), MyPage.class);
                 startActivity(intent3);
+                overridePendingTransition(0, 0);
             }
         }); //마이페이지 선택시
 

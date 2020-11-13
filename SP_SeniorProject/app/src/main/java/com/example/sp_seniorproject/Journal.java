@@ -2,6 +2,7 @@ package com.example.sp_seniorproject;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -53,6 +54,7 @@ public class Journal extends AppCompatActivity {
     private View mLayout;
     MyPaintView view;
     int tColor, n = 0;
+    public static Activity journal;
 
     long now = System.currentTimeMillis();
     Date date = new Date(now);
@@ -66,6 +68,8 @@ public class Journal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.journal_layout);
 
+        journal = Journal.this;
+
         dateNow = (TextView) findViewById(R.id.dateNow);
         dateNow.setText(formatDate);
 
@@ -76,16 +80,18 @@ public class Journal extends AppCompatActivity {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1323 = new Intent(v.getContext(), MainActivity.class);
-                startActivity(intent1323);
+              journal.finish();
+              overridePendingTransition(0, 0);
             }
         });
 
         sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1323 = new Intent(v.getContext(), JournalResult.class);
-                startActivity(intent1323);
+              Intent intent1323 = new Intent(v.getContext(), JournalResult.class);
+              startActivity(intent1323);
+              overridePendingTransition(0, 0);
+              journal.finish();
             }
         });
         view = new MyPaintView(this);
@@ -295,4 +301,3 @@ public class Journal extends AppCompatActivity {
         colorPicker.show();
     }
 }
-

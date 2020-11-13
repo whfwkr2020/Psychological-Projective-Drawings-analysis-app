@@ -1,5 +1,6 @@
 package com.example.sp_seniorproject;
 
+import android.app.Activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,7 +49,9 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 import static android.os.Environment.DIRECTORY_PICTURES;
 
 public class HTP extends AppCompatActivity {
-    Button back, submithtp;
+    Button back, totree;
+
+    public static Activity htp;
 
     MyPaintView view;
     int tColor, n = 0;
@@ -62,23 +65,25 @@ public class HTP extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.htp1_layout);
+        htp = HTP.this;
 
         back = findViewById(R.id.toPick);
-        submithtp = findViewById(R.id.submithtp);
+        totree = findViewById(R.id.totree);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(v.getContext(), Test.class);
-                startActivity(intent1);
-            }
+              htp.finish();
+              overridePendingTransition(0, 0);
+          }
         });
 
-        submithtp.setOnClickListener(new View.OnClickListener() {
+        totree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(v.getContext(), HTPresult.class);
-                startActivity(intent1);
+              Intent intent1 = new Intent(v.getContext(), HTP2.class);
+              startActivity(intent1);
+              overridePendingTransition(0, 0);
             }
         });
 
