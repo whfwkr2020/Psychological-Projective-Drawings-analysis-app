@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -61,6 +65,7 @@ public class HTP extends AppCompatActivity {
     //TODO
     DatabaseReference mDatabase;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +96,6 @@ public class HTP extends AppCompatActivity {
 
         LinearLayout container = findViewById(R.id.container);
         Resources res = getResources();
-
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         container.addView(view, params);
@@ -173,6 +177,9 @@ public class HTP extends AppCompatActivity {
                 //                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/path";
                 String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +"";
 //                String path = getExternalFilesDir(DIRECTORY_PICTURES) +"/path";
+
+                // resize img size to 960*1600
+
                 final LinearLayout capture = (LinearLayout) findViewById(R.id.container);//캡쳐할영역(프레임레이아웃)
 
 

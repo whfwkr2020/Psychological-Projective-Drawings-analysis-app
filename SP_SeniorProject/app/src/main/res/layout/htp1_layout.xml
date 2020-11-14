@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:rotationX="-360">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,45 +21,45 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="17"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="17" />
 
         <Button
             android:id="@+id/toPick"
             android:layout_width="0dp"
-            android:layout_weight="17"
             android:layout_height="17dp"
+            android:layout_weight="17"
             android:background="@drawable/backward" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="112"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="112" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="130"
             android:layout_height="wrap_content"
+            android:layout_weight="130"
             android:text="집을 그리세요."
             android:textColor="#77AAAD"
             android:textSize="20dp" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="102"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="102" />
 
         <Button
             android:id="@+id/totree"
             android:layout_width="0dp"
-            android:layout_weight="17"
             android:layout_height="22dp"
+            android:layout_weight="17"
             android:background="@drawable/next" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="12"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="12" />
 
     </LinearLayout>
 
@@ -79,38 +81,38 @@
             <Button
                 android:id="@+id/colorPickerButton"
                 android:layout_width="0dp"
-                android:layout_weight="70"
                 android:layout_height="40dp"
                 android:layout_marginLeft="35dp"
+                android:layout_weight="70"
                 android:background="#77AAAD"
                 android:text="색상선택" />
 
             <Button
                 android:id="@+id/thickPickerButton"
                 android:layout_width="0dp"
-                android:layout_weight="70"
                 android:layout_height="40dp"
-                android:background="#77AAAD"
                 android:layout_marginLeft="20dp"
+                android:layout_weight="70"
+                android:background="#77AAAD"
                 android:text="굵기입력" />
 
             <Button
                 android:id="@+id/eraseButton"
                 android:layout_width="0dp"
-                android:layout_weight="70"
                 android:layout_height="40dp"
-                android:background="#77AAAD"
                 android:layout_marginLeft="20dp"
+                android:layout_weight="70"
+                android:background="#77AAAD"
                 android:text="지우기" />
 
             <Button
                 android:id="@+id/saveButton"
                 android:layout_width="0dp"
-                android:layout_weight="70"
                 android:layout_height="40dp"
-                android:background="#77AAAD"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="35dp"
+                android:layout_weight="70"
+                android:background="#77AAAD"
                 android:text="저장" />
         </LinearLayout>
 
@@ -129,36 +131,42 @@
                     android:id="@+id/radioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:buttonTint="#77AAAD"
                     android:layout_marginLeft="60dp"
-                    android:textColor="#77AAAD"
-                    android:text="BUTT" />
+                    android:buttonTint="#77AAAD"
+                    android:text="BUTT"
+                    android:textColor="#77AAAD" />
 
                 <RadioButton
                     android:id="@+id/radioButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:buttonTint="#77AAAD"
                     android:layout_marginLeft="37dp"
-                    android:textColor="#77AAAD"
-                    android:text="ROUND" />
+                    android:buttonTint="#77AAAD"
+                    android:text="ROUND"
+                    android:textColor="#77AAAD" />
 
                 <RadioButton
                     android:id="@+id/radioButton3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:buttonTint="#77AAAD"
                     android:layout_marginLeft="25dp"
-                    android:textColor="#77AAAD"
-                    android:text="SQUARE" />
+                    android:buttonTint="#77AAAD"
+                    android:text="SQUARE"
+                    android:textColor="#77AAAD" />
             </RadioGroup>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="#F4FFFC">
+
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="960px"
+                android:layout_height="1600px"
+                android:layout_gravity="center"
+                android:orientation="horizontal"></LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
