@@ -32,24 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-         * 키 해시 찾기 위한 코드
-         * 키 해시: 1rMhx1Ujj2c39CzgmwgO2qdmWrU=
-         *
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo("com.example.sp_seniorproject", PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.e("KeyHas", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        */
-
         menumenu = findViewById(R.id.menu);
         alert = findViewById(R.id.alert);
         test = findViewById(R.id.test);

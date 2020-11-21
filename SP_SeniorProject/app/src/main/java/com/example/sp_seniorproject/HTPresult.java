@@ -238,9 +238,21 @@ public class HTPresult extends AppCompatActivity {
                 obj = new DataInputStream(in);
                 Log.d("MainActivity", "서버에서 받은 메시지 : " + obj.readUTF());
 
+                FileSender fs = new FileSender(sock, temp.getData(), "img");
+                fs.start();
                 // terminal socket & stream
 //                obj.close();
 //                sock.close();
+                sock = new Socket(hostname, port);
+                // Get the data of server through InputStream instance
+                in = sock.getInputStream();
+
+                // DataInputStream can directly input/output Java's basic data type data received from inputStream
+                obj = new DataInputStream(in);
+                Log.d("MainActivity", "서버에서 받은 메시지 : " + obj.readUTF());
+                Receiver receiver = new Receiver(sock);
+                receiver.start();
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -363,17 +375,19 @@ public class HTPresult extends AppCompatActivity {
                 obj = new DataInputStream(in);
                 Log.d("[Read]", obj.readUTF());
                 Log.d("돼라", "??");
-
-                // print the received data(result)
-                printResult(obj.readUTF());
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            finally {
+                try {
+                    socket.close();
+                    dos.close();
+                    dis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
-
-    private void printResult(String result) {
-        TextView resultText = findViewById(R.id.result_text);
-        resultText.setText(result);
-    }
 }
+

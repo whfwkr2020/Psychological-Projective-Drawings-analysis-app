@@ -195,10 +195,6 @@ public class HTP3 extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                //TODO: 위의 이미지를 storage에 저장
-
-                //TODO
-//                writeNewTestData(getUserProfile(), "HTP", "img_name", (long) 20201112, "result:test2");
 
             }
         });

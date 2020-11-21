@@ -50,7 +50,7 @@
             android:layout_weight="102" />
 
         <Button
-            android:id="@+id/totree"
+            android:id="@+id/submithtp"
             android:layout_width="0dp"
             android:layout_height="22dp"
             android:layout_weight="17"

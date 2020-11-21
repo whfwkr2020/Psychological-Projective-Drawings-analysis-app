@@ -1,21 +1,19 @@
 package com.example.sp_seniorproject;
 
-import android.app.Activity;
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,24 +23,35 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.sp_seniorproject.firebase.TestData;
+import com.google.android.gms.common.internal.Objects;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,52 +59,57 @@ import java.util.Map;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
-import static android.os.Environment.DIRECTORY_PICTURES;
-
 public class HTP extends AppCompatActivity {
-    Button back, totree;
-
-    public static Activity htp;
-
+    Socket sock;
+    DataInputStream obj;
+    InputStream in;
+    Intent temp;
+    Button re;
+    Button back, submithtp;
+    private View mLayout;
     MyPaintView view;
     int tColor, n = 0;
+    Uri imageUri;
+    ConnectThread thread;
 
-    private View mLayout;
 
-    //TODO
-    DatabaseReference mDatabase;
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.htp1_layout);
-        htp = HTP.this;
 
         back = findViewById(R.id.toPick);
-        totree = findViewById(R.id.totree);
+        submithtp = findViewById(R.id.submithtp);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              htp.finish();
-              overridePendingTransition(0, 0);
-          }
+                Intent intent1 = new Intent(v.getContext(), Test.class);
+                startActivity(intent1);
+            }
         });
 
-        totree.setOnClickListener(new View.OnClickListener() {
+        submithtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              Intent intent1 = new Intent(v.getContext(), HTP2.class);
-              startActivity(intent1);
-              overridePendingTransition(0, 0);
+                // [address] 주소
+                String addr = "192.168.43.238".trim();
+                // Create the Thread to connect ip address
+                thread = new ConnectThread(addr);
+                // thread run
+                thread.start();
+
+                Intent intent1 = new Intent(v.getContext(), HTPresult.class);
+                startActivity(intent1);
             }
         });
 
         view = new MyPaintView(this);
 
-        LinearLayout container = findViewById(R.id.container);
+        final LinearLayout container = findViewById(R.id.container);
         Resources res = getResources();
+
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         container.addView(view, params);
@@ -122,36 +136,9 @@ public class HTP extends AppCompatActivity {
             }
         });
 
-        int writeExternalStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
-
-
-                Snackbar.make(mLayout, "이 앱을 실행하려면 카메라와 외부 저장소 접근 권한이 필요합니다.",
-                        Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-
-                        ActivityCompat.requestPermissions(HTP.this, REQUIRED_PERMISSIONS,
-                                PERMISSIONS_REQUEST_CODE);
-                    }
-                }).show();
-
-
-            } else {
-
-                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS,
-                        PERMISSIONS_REQUEST_CODE);
-            }
-
-        }
-
         Button btn = findViewById(R.id.colorPickerButton);
         Button btn2 = findViewById(R.id.thickPickerButton);
         Button btn3 = findViewById(R.id.eraseButton);
-        Button btn4 = findViewById(R.id.saveButton);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,15 +158,11 @@ public class HTP extends AppCompatActivity {
                 view.clear(1);
             }
         });
+        Button btn4 = findViewById(R.id.saveButton);
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/path";
                 String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) +"";
-//                String path = getExternalFilesDir(DIRECTORY_PICTURES) +"/path";
-
-                // resize img size to 960*1600
-
                 final LinearLayout capture = (LinearLayout) findViewById(R.id.container);//캡쳐할영역(프레임레이아웃)
 
 
@@ -199,9 +182,10 @@ public class HTP extends AppCompatActivity {
 
                 FileOutputStream fos = null;
                 try {
-                    fos = new FileOutputStream(path + "/Capture" + day.format(date) + ".jpeg");
-                    captureview.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path + "/Capture" + day.format(date) + ".JPEG")));
+                    fos = new FileOutputStream(path + "/Capture" + day.format(date) + ".png");
+                    captureview.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    imageUri = Uri.parse("file://" + path + "/Capture" + day.format(date) + ".PNG");
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path + "/Capture" + day.format(date) + ".PNG")));
                     fos.flush();
                     fos.close();
                     capture.destroyDrawingCache();
@@ -210,16 +194,9 @@ public class HTP extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                //TODO: 위의 이미지를 storage에 저장
-
-               //TODO
-                writeNewTestData(getUserProfile(), "HTP", "img_name", (long) 20201112, "result:test2");
-
             }
         });
     }
-
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
@@ -255,18 +232,6 @@ public class HTP extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    @Nullable
-    File getAppSpecificAlbumStorageDir(Context context, String albumName) {
-        // Get the pictures directory that's inside the app-specific directory on
-        // external storage.
-        File file = new File(context.getExternalFilesDir(
-                DIRECTORY_PICTURES), albumName);
-        if (file == null || !file.mkdirs()) {
-            Log.e("filefile", "Directory not created");
-        }
-        return file;
     }
 
     private void show() {
@@ -311,36 +276,254 @@ public class HTP extends AppCompatActivity {
         colorPicker.show();
     }
 
-    //TODO
-    //Firebase: update the HTP test data
-    private void writeNewTestData(String UID, String type, String imgName, Long date, String result) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> postValues = null;
-
-        TestData testData = new TestData(type, imgName, date, result);
-        postValues = testData.toMap();
-        childUpdates.put("/TestData/" + UID, postValues);
-        mDatabase.updateChildren(childUpdates);
-
-
-//        TestData testData = new TestData(type, imgName, date, result);
-
-//        mDatabase.child("TestData").child(UID).setValue(testData);
+    //////////////////////////////// 추가 /////////////////////////////////////
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 
-    //TODO: 아래 링크 사용해서 사용자 프로필 띄우는 기능 만들기 (메인 화면 햄버거 아이콘에...?)
-    //Firebase: get user profile (https://firebase.google.com/docs/auth/android/manage-users?hl=ko#get_a_users_profile)
-    private String getUserProfile() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = null;
-        if (user != null) {
-            uid = user.getUid();
+    // Create Thread class
+    class ConnectThread extends Thread {
+        String hostname;
+
+        // initial class
+        public ConnectThread(String addr) {
+            // Insert the address to hostname
+            hostname = addr;
         }
-        else {
-            Toast.makeText(getApplicationContext(), "로그인된 사용자가 아닙니다. 로그인 후 이용해주십시오.", Toast.LENGTH_SHORT).show();
+
+        // run function
+        public void run() {
+            try {
+                // This port number is matched the server port number (7777)
+                int port = 7777;
+                Log.d("MainActivity", "서버에 연결중입니다.");
+
+                // Create client socket to connect server that has applicable port
+                sock = new Socket(hostname, port);
+                // Get the data of server through InputStream instance
+                in = sock.getInputStream();
+
+                // DataInputStream can directly input/output Java's basic data type data received from inputStream
+                obj = new DataInputStream(in);
+                Log.d("MainActivity", "서버에서 받은 메시지 : " + obj.readUTF());
+
+                FileSender fs = new FileSender(sock, imageUri, "img");
+                fs.start();
+                // terminal socket & stream
+//                obj.close();
+//                sock.close();
+                sock = new Socket(hostname, port);
+                // Get the data of server through InputStream instance
+                in = sock.getInputStream();
+
+                // DataInputStream can directly input/output Java's basic data type data received from inputStream
+                obj = new DataInputStream(in);
+                Log.d("MainActivity", "서버에서 받은 메시지 : " + obj.readUTF());
+                Receiver receiver = new Receiver(sock);
+                receiver.start();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
-        return uid;
     }
+    class FileSender extends Thread {
+        Uri filePath;
+        String fileNm;
+        Socket socket;
+        DataOutputStream dos;
+        FileInputStream fis;
+        BufferedInputStream bis;
+        DataInputStream dis;
+
+        public FileSender(Socket socket, Uri filePath, String fileNm) {
+            this.socket = socket;
+            this.fileNm = fileNm;
+            this.filePath = filePath;
+
+            try {
+                dis = new DataInputStream(socket.getInputStream());
+                dos = new DataOutputStream(socket.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // @Override
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        public void run() {
+            try {
+                dos.writeUTF("House");
+                dos.flush();
+                String result = fileRead(dos);
+                Log.d("[FileSender]", "run: " + result);
+                dos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    dos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (bis != null) {
+                        bis.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        private String fileRead(DataOutputStream dos) {
+            String result = null;
+
+            try {
+                String imagePath = getRealPathFromURI(filePath);
+                dos.writeUTF(fileNm);
+                File file = new File(imagePath);
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+
+                int len;
+                int size = 4096;
+                byte[] data = new byte[size];
+                while ((len = bis.read(data)) != -1) {
+                    dos.write(data, 0, len);
+                }
+
+                dos.flush();
+                result = "Success";
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+                result = "Error";
+            } finally {
+                try {
+                    if (fis != null) {
+                        fis.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return result;
+        }
+
+
+    }
+    // [read]
+    class Receiver extends Thread {
+        Socket socket;
+        FileInputStream fis;
+        BufferedInputStream bis;
+        DataInputStream dis;
+        DataOutputStream dos;
+
+        public Receiver(Socket socket) {
+            this.socket = socket;
+            try {
+                dos = new DataOutputStream(socket.getOutputStream());
+                dis = new DataInputStream(socket.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // @Override
+        public void run() {
+            try {
+                Log.d("isRun", "runrunrunrun");
+                // [read]
+                dos.writeUTF("result");
+                dos.flush();
+                obj = new DataInputStream(in);
+//                Log.d("[Read]", obj.readUTF());
+                Log.d("돼라", "??");
+
+                String result = new String(obj.readUTF());
+//                Log.d("newUTF", result);        //test
+                storeResult(result);
+//                Log.d("ddd", "success");        //test
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            finally {
+                try {
+                    socket.close();
+                    dos.close();
+                    dis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void storeResult(String resultStr) {
+            Log.d("read1234", resultStr);      //test
+
+            //Firebase - user data
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            String UID = currentUser.getUid();
+
+            //Firebase - storage
+            FirebaseStorage mFirestorage = FirebaseStorage.getInstance();
+            final StorageReference storageRef = mFirestorage.getReference("test/HTP/" + UID + "/" + imageUri.getLastPathSegment());
+
+            //Firebase - realtime
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+//            final String[] downloadUrl = {""};
+
+            // upload image - storage
+            UploadTask uploadTask = storageRef.putFile(imageUri);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
+                    Log.d("uploadImg", "fail");
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getApplicationContext(), "이미지 업로드 성공", Toast.LENGTH_SHORT).show();
+//                    downloadUrl[0] = storageRef.getDownloadUrl().toString();
+//                    Log.d("downloadUrl", downloadUrl[0]);
+                }
+            });
+
+            // upload result - realtime
+            SimpleDateFormat day = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = new Date();
+            Map<String, Object> childUpdates = new HashMap<>();
+            Map<String, Object> postValues = null;
+
+            String type = "HTP";
+            TestData testData = new TestData(type, "path", Long.parseLong(day.format(date)), resultStr);
+            postValues = testData.toMap();
+            childUpdates.put("/TestData/" + UID + "/" + day.format(date), postValues);
+//            childUpdates.put("/TestData/" + UID, postValues);
+            mDatabase.updateChildren(childUpdates);
+
+//            Toast.makeText(getApplicationContext(), "결과 업로드 완료", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 
 }
