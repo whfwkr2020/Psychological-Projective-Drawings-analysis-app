@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,31 +19,30 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="17"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="17" />
 
         <Button
             android:id="@+id/pitrback"
             android:layout_width="0dp"
-            android:layout_weight="17"
             android:layout_height="17dp"
+            android:layout_weight="17"
             android:background="@drawable/backward" />
 
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="210"
             android:layout_height="wrap_content"
             android:layout_marginLeft="130dp"
+            android:layout_weight="210"
             android:text="분석 결과"
             android:textColor="#77AAAD"
             android:textSize="20dp" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="39"
             android:layout_height="match_parent"
-            />
+            android:layout_weight="39" />
 
     </LinearLayout>
 
@@ -52,6 +51,20 @@
         android:layout_height="0dp"
         android:layout_weight="588"
         android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnBarChart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="막대 그래프" />
+
+        <Button
+            android:id="@+id/btnPieChart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="원형 그래프" />
 
     </LinearLayout>
 

@@ -34,6 +34,9 @@ import java.net.Socket;
 
 import static android.os.SystemClock.sleep;
 
+import com.github.mikephil.charting.charts.BarChart;
+
+
 public class HTPresult extends AppCompatActivity {
     private static final String TAG = "HTPresult";
     Button button01;
@@ -47,6 +50,8 @@ public class HTPresult extends AppCompatActivity {
     Intent temp;
     Button re;
     ConnectThread thread;
+    Button btnBarChart, btnPieChart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,24 @@ public class HTPresult extends AppCompatActivity {
         Button back;
 
         back = findViewById(R.id.htpback);
+        BarChart barChart = (BarChart) findViewById(R.id.barchart);
+        btnBarChart = findViewById(R.id.btnBarChart);
+        btnPieChart = findViewById(R.id.btnPieChart);
+        btnBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent I = new Intent(HTPresult.this, BarChartActivity.class);
+                startActivity(I);
+            }
+        });
+        btnPieChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent I = new Intent(HTPresult.this, PieChartActivity.class);
+                startActivity(I);
+            }
+        });
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -348,6 +371,7 @@ public class HTPresult extends AppCompatActivity {
 
 
     }
+
     // [read]
     class Receiver extends Thread {
         Socket socket;
@@ -377,8 +401,7 @@ public class HTPresult extends AppCompatActivity {
                 Log.d("돼라", "??");
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 try {
                     socket.close();
                     dos.close();

@@ -8,14 +8,35 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PITRresult extends AppCompatActivity {
+import com.github.mikephil.charting.charts.BarChart;
 
-  public static Activity pitrresult;
+public class PITRresult extends AppCompatActivity {
+    Button btnBarChart, btnPieChart;
+
+    public static Activity pitrresult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pitrresult);
+
+        BarChart barChart = (BarChart) findViewById(R.id.barchart);
+        btnBarChart = findViewById(R.id.btnBarChart);
+        btnPieChart = findViewById(R.id.btnPieChart);
+        btnBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent I = new Intent(PITRresult.this, BarChartActivity.class);
+                startActivity(I);
+            }
+        });
+        btnPieChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent I = new Intent(PITRresult.this, PieChartActivity.class);
+                startActivity(I);
+            }
+        });
 
         pitrresult = PITRresult.this;
 
@@ -26,8 +47,8 @@ public class PITRresult extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              pitrresult.finish();
-              overridePendingTransition(0, 0);
+                pitrresult.finish();
+                overridePendingTransition(0, 0);
             }
         });
     }
