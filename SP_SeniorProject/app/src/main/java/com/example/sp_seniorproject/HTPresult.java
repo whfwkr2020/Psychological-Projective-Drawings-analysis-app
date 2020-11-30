@@ -1,56 +1,50 @@
 package com.example.sp_seniorproject;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.example.sp_seniorproject.firebase.TestData;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.Socket;
-
-import static android.os.SystemClock.sleep;
-
-import com.github.mikephil.charting.charts.BarChart;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HTPresult extends AppCompatActivity {
     private static final String TAG = "HTPresult";
-    Button button01;
     TextView input01;
-    ImageView iv;
-    private View mLayout;
-    private final int GET_GALLERY_IMAGE = 200;
-    Socket sock;
-    DataInputStream obj;
-    InputStream in;
-    Intent temp;
-    Button re;
-    ConnectThread thread;
-    Button btnBarChart, btnPieChart;
+    TextView resultText;
+
+    //Firebase - user data
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    String UID = currentUser.getUid();
+
+    //firebase - realtime
+    private FirebaseDatabase mDatabase;
+//    private DatabaseReference mReference;
+//    private ChildEventListener mChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,24 +54,6 @@ public class HTPresult extends AppCompatActivity {
         Button back;
 
         back = findViewById(R.id.htpback);
-        BarChart barChart = (BarChart) findViewById(R.id.barchart);
-        btnBarChart = findViewById(R.id.btnBarChart);
-        btnPieChart = findViewById(R.id.btnPieChart);
-        btnBarChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent I = new Intent(HTPresult.this, BarChartActivity.class);
-                startActivity(I);
-            }
-        });
-        btnPieChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent I = new Intent(HTPresult.this, PieChartActivity.class);
-                startActivity(I);
-            }
-        });
-
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,331 +62,175 @@ public class HTPresult extends AppCompatActivity {
                 startActivity(intent11);
             }
         });
-        button01 = (Button) findViewById(R.id.button01);
-        input01 = (TextView) findViewById(R.id.input01);
-        iv = (ImageView) findViewById(R.id.iv);
-        re = (Button) findViewById(R.id.reBtn);
 
-        Button imageButton = (Button) findViewById(R.id.imageBtn);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
-                startActivityForResult(intent, GET_GALLERY_IMAGE);
+        resultText = (TextView) findViewById(R.id.result);
+        resultText.setText("결과를 불러오는 중입니다.");
 
-            }
-        });
+        Intent intent = getIntent();
+        String date = intent.getStringExtra("dateString");
+        showResult(date);
 
-        Button sendImageButton = (Button) findViewById(R.id.sendBtn);
-        sendImageButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: " + temp.getData());
-                FileSender fs = new FileSender(sock, temp.getData(), "img");
-                fs.start();
-            }
-        });
-        // Event of click button
-        button01.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Change the address text to String
-                String addr = input01.getText().toString().trim();
-                // Create the Thread to connect ip address
-                thread = new ConnectThread(addr);
-                // thread run
-                thread.start();
-            }
-        });
-
-        // Event of click button
-        re.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Change the address text to String
-                try {
-                    sock.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String addr = input01.getText().toString().trim();
-                // Create the Thread to connect ip address
-                ConnectThread thread = new ConnectThread(addr);
-                // thread run
-
-                thread.start();
-
-                sleep(1000);
-                // [read]
-                Receiver receiver = new Receiver(sock);
-                receiver.start();
-            }
-        });
+//        resultText.setText(date);
+//        Toast.makeText(getApplicationContext(), date, Toast.LENGTH_SHORT).show();
 
 
-        int writeExternalStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (writeExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
-
-
-                Snackbar.make(mLayout, "이 앱을 실행하려면 카메라와 외부 저장소 접근 권한이 필요합니다.",
-                        Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-
-                        ActivityCompat.requestPermissions(HTPresult.this, REQUIRED_PERMISSIONS,
-                                PERMISSIONS_REQUEST_CODE);
-                    }
-                }).show();
-
-
-            } else {
-
-                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS,
-                        PERMISSIONS_REQUEST_CODE);
-            }
-
-        }
 
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "URI=>" + data.getData());
-        iv.setImageURI(data.getData());
-        temp = data;
+    private void showResult(final String dateStr) {
+        mDatabase = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = mDatabase.getReference(UID).child(dateStr);
+//        DatabaseReference myRef = mDatabase.getReference(UID);
+        final DatabaseReference[] myRef = {mDatabase.getReference("TestData").child(UID).child(dateStr)};
+        Log.d("TestdataNull", "dateStr=" + dateStr);
+
+        // Add value event listener to the post
+        ValueEventListener testDataListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                TestData testData = dataSnapshot.getValue(TestData.class);
+                if (testData == null){
+//                    testData = dataSnapshot.getValue(TestData.class);
+                    Log.d("TestdataNull", "null");
+                    myRef[0] = mDatabase.getReference("TestData").child(UID).child(dateStr);
+                }
+                else {
+                    Log.d("TestdataNull", "not Null");
+                    Map<String, Object> result = testData.toMap();
+                    resultText.setText((CharSequence) result.get("resultSentence").toString().replace("-", "\n"));
+                    showPieChart(result.get("sentimentWord"));
+                }
+
+
+                // [START_EXCLUDE]
+//                binding.postAuthorLayout.postAuthor.setText(post.author);
+//                binding.postTextLayout.postTitle.setText(post.title);
+//                binding.postTextLayout.postBody.setText(post.body);
+//                Map<String, Object> result = testData.toMap();
+//                resultText.setText((CharSequence) result.get("resultSentence"));
+                // [END_EXCLUDE]
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // [START_EXCLUDE]
+                Toast.makeText(getApplicationContext(), "Failed to load post.",
+                        Toast.LENGTH_SHORT).show();
+                // [END_EXCLUDE]
+            }
+        };
+        myRef[0].addValueEventListener(testDataListener);
     }
 
-    private static final int PERMISSIONS_REQUEST_CODE = 100;
-    String[] REQUIRED_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grandResults) {
-
-        if (requestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
-            boolean check_result = true;
-            for (int result : grandResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    check_result = false;
-                    break;
-                }
-            }
-            if (check_result) {
-            } else {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
-                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요. ",
-                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            finish();
-                        }
-                    }).show();
-                } else {
-                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ",
-                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            finish();
-                        }
-                    }).show();
-                }
-            }
+    private void showPieChart(Object word) {
+        PieChart pieChart = findViewById(R.id.piechart);
+        String words = word.toString();
+        Log.d("showPieChart", "words=" + words);
+        String[] temp = words.split(" ");
+        for(int i = 0; i < temp.length; i++) {
+            Log.d("showPieChart", "temp[" + i + "]=" + temp[i]);
         }
+
+        // Count the sentiment words
+        HashMap<String, Integer> wordNum = new HashMap<>();
+        for (int i = 0; i < temp.length; i++) {
+            if (wordNum.containsKey(temp[i])) {
+                int n = wordNum.get(temp[i]);
+                wordNum.replace(temp[i], n+1);
+            }
+            else
+                wordNum.put(temp[i], 1);
+
+        }
+
+        ArrayList NoOfEmp = new ArrayList();
+//        NoOfEmp.add(new BarEntry(30f, 0));
+//        NoOfEmp.add(new BarEntry(60f, 1));
+//        NoOfEmp.add(new BarEntry(40f, 2));
+//        NoOfEmp.add(new BarEntry(10f, 3));
+//        NoOfEmp.add(new BarEntry(50f, 4));
+//        NoOfEmp.add(new BarEntry(80f, 5));
+//        NoOfEmp.add(new BarEntry(60f, 6));
+        PieDataSet dataSet = new PieDataSet(NoOfEmp, "심리의 종류");
+
+        ArrayList sensitive = new ArrayList();
+//        for(int i = 0; i < temp.length; i++) {
+//            sensitive.add(temp[i]);
+//            NoOfEmp.add(new BarEntry(1, i));
+//        }
+
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : wordNum.entrySet()) {
+            System.out.println("[Key]:" + entry.getKey() + " [Value]:" + entry.getValue());
+            sensitive.add(entry.getKey());
+            NoOfEmp.add(new BarEntry(entry.getValue(), count++));
+        }
+
+        PieData data = new PieData(sensitive, dataSet); // MPAndroidChart v3.X 오류 발생
+        pieChart.setData(data);
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        data.setValueTextSize(13f);
+        pieChart.animateXY(100, 100);
     }
 
-
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
-    }
-
-    // Create Thread class
-    class ConnectThread extends Thread {
-        String hostname;
-
-        // initial class
-        public ConnectThread(String addr) {
-            // Insert the address to hostname
-            hostname = addr;
-        }
-
-        // run function
-        public void run() {
-            try {
-                // This port number is matched the server port number (7777)
-                int port = 7777;
-                Log.d("MainActivity", "서버에 연결중입니다.");
-
-                // Create client socket to connect server that has applicable port
-                sock = new Socket(hostname, port);
-                // Get the data of server through InputStream instance
-                in = sock.getInputStream();
-
-                // DataInputStream can directly input/output Java's basic data type data received from inputStream
-                obj = new DataInputStream(in);
-                Log.d("MainActivity", "서버에서 받은 메시지 : " + obj.readUTF());
-
-                FileSender fs = new FileSender(sock, temp.getData(), "img");
-                fs.start();
-                // terminal socket & stream
-//                obj.close();
-//                sock.close();
-                sock = new Socket(hostname, port);
-                // Get the data of server through InputStream instance
-                in = sock.getInputStream();
-
-                // DataInputStream can directly input/output Java's basic data type data received from inputStream
-                obj = new DataInputStream(in);
-                Log.d("MainActivity", "서버에서 받은 메시지 : " + obj.readUTF());
-                Receiver receiver = new Receiver(sock);
-                receiver.start();
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
+//    private void initDatabase() {
+//
+//        mDatabase = FirebaseDatabase.getInstance();
+//
+//        mReference = mDatabase.getReference("log");
+//        mReference.child("log").setValue("check");
+//
+//        mChild = new ChildEventListener() {
+//
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+////                dataSnapshot.getKey(); // will have value of String: "users", then "books"
+////                for (DataSnapshot snapshot : dataSnapshot) {
+////                    snapshot.getKey();
+////                    // if dataSnapshot.getKey() is "users", this will have value of String: "randomUserId1", then "randomUserId2"
+////                    // If dataSnapshot.getKey() is "books", this will have value of String: "bookId1", then "bookId2"
+////                    for (DataSnapshot deeperSnapshot : dataSnapshot) {
+////                        snapshot.getKey();
+////                        // if snapshot.getKey() is "randomUserId1" or "randomUserId1", this will have value of String: "display-name", then "gender"
+////                        // But the value will be different based on key
+////                        // If snapshot.getKey() is "books", this will have value of String: "title", but the value will be different based on key
+////                    }
+////                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        };
+//        mReference.addChildEventListener(mChild);
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        mReference.removeEventListener(mChild);
+//    }
 
 
-    class FileSender extends Thread {
-        Uri filePath;
-        String fileNm;
-        Socket socket;
-        DataOutputStream dos;
-        FileInputStream fis;
-        BufferedInputStream bis;
-        DataInputStream dis;
-
-        public FileSender(Socket socket, Uri filePath, String fileNm) {
-            this.socket = socket;
-            this.fileNm = fileNm;
-            this.filePath = filePath;
-
-            try {
-                dis = new DataInputStream(socket.getInputStream());
-                dos = new DataOutputStream(socket.getOutputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // @Override
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        public void run() {
-            try {
-                dos.writeUTF("House");
-                dos.flush();
-                String result = fileRead(dos);
-                Log.d("[FileSender]", "run: " + result);
-                dos.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    dos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    if (bis != null) {
-                        bis.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        private String fileRead(DataOutputStream dos) {
-            String result = null;
-
-            try {
-                String imagePath = getRealPathFromURI(filePath);
-                dos.writeUTF(fileNm);
-                File file = new File(imagePath);
-                fis = new FileInputStream(file);
-                bis = new BufferedInputStream(fis);
-
-                int len;
-                int size = 4096;
-                byte[] data = new byte[size];
-                while ((len = bis.read(data)) != -1) {
-                    dos.write(data, 0, len);
-                }
-
-                dos.flush();
-                result = "Success";
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-                result = "Error";
-            } finally {
-                try {
-                    if (fis != null) {
-                        fis.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return result;
-        }
-
-
-    }
-
-    // [read]
-    class Receiver extends Thread {
-        Socket socket;
-        FileInputStream fis;
-        BufferedInputStream bis;
-        DataInputStream dis;
-        DataOutputStream dos;
-
-        public Receiver(Socket socket) {
-            this.socket = socket;
-            try {
-                dos = new DataOutputStream(socket.getOutputStream());
-                dis = new DataInputStream(socket.getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // @Override
-        public void run() {
-            try {
-                // [read]
-                dos.writeUTF("result");
-                dos.flush();
-                obj = new DataInputStream(in);
-                Log.d("[Read]", obj.readUTF());
-                Log.d("돼라", "??");
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    socket.close();
-                    dos.close();
-                    dis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }
 

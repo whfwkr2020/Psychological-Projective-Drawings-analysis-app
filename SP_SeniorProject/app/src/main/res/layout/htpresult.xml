@@ -40,64 +40,45 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="588"
+        android:layout_height="wrap_content"
+        android:layout_weight="288"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/textColor"
-            android:text="버튼을 누르면 소켓 연결됩니다. 로그를 확인하세요." />
 
-        <EditText
-            android:textColor="@color/textColor"
-            android:id="@+id/input01"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="분석 내용"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:background="#77AAAD" />
 
-        <Button
-            android:id="@+id/button01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="소켓연결하기" />
+            <TextView
+                android:id="@+id/result"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:textColor="#000000"
+                android:text="error"/>
 
-        <Button
-            android:id="@+id/imageBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="find image" />
-        <Button
-            android:id="@+id/sendBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send" />
-        <Button
-            android:id="@+id/reBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Receive" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/iv"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="심리 상태"
+                    android:textSize="20dp"
+                    android:textAlignment="center"
+                    android:background="#77AAAD" />
 
-        <Button
-            android:id="@+id/btnBarChart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="막대 그래프" />
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/btnPieChart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="원형 그래프" />
+
     </LinearLayout>
 
 

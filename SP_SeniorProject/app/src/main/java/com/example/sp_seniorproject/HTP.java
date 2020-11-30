@@ -71,6 +71,7 @@ public class HTP extends AppCompatActivity {
     int tColor, n = 0;
     Uri imageUri;
     ConnectThread thread;
+    String dateFormat;
 
 
 
@@ -94,13 +95,14 @@ public class HTP extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // [address] 주소
-                String addr = "192.168.43.238".trim();
+                String addr = "192.168.0.5".trim();
                 // Create the Thread to connect ip address
                 thread = new ConnectThread(addr);
                 // thread run
                 thread.start();
 
                 Intent intent1 = new Intent(v.getContext(), HTPresult.class);
+                intent1.putExtra("dateString", dateFormat);
                 startActivity(intent1);
             }
         });
@@ -168,6 +170,7 @@ public class HTP extends AppCompatActivity {
 
                 SimpleDateFormat day = new SimpleDateFormat("yyyyMMddHHmmss");
                 Date date = new Date();
+                dateFormat = day.format(date);
                 capture.buildDrawingCache();
                 Bitmap captureview = capture.getDrawingCache();
 
@@ -182,10 +185,10 @@ public class HTP extends AppCompatActivity {
 
                 FileOutputStream fos = null;
                 try {
-                    fos = new FileOutputStream(path + "/Capture" + day.format(date) + ".png");
+                    fos = new FileOutputStream(path + "/Capture" + dateFormat + ".png");
                     captureview.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    imageUri = Uri.parse("file://" + path + "/Capture" + day.format(date) + ".PNG");
-                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path + "/Capture" + day.format(date) + ".PNG")));
+                    imageUri = Uri.parse("file://" + path + "/Capture" + dateFormat + ".PNG");
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path + "/Capture" + dateFormat + ".PNG")));
                     fos.flush();
                     fos.close();
                     capture.destroyDrawingCache();
@@ -482,8 +485,8 @@ public class HTP extends AppCompatActivity {
             String UID = currentUser.getUid();
 
             //Firebase - storage
-            FirebaseStorage mFirestorage = FirebaseStorage.getInstance();
-            final StorageReference storageRef = mFirestorage.getReference("test/HTP/" + UID + "/" + imageUri.getLastPathSegment());
+//            FirebaseStorage mFirestorage = FirebaseStorage.getInstance();
+//            final StorageReference storageRef = mFirestorage.getReference("test/HTP/" + UID + "/" + imageUri.getLastPathSegment());
 
             //Firebase - realtime
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -491,32 +494,36 @@ public class HTP extends AppCompatActivity {
 //            final String[] downloadUrl = {""};
 
             // upload image - storage
-            UploadTask uploadTask = storageRef.putFile(imageUri);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getApplicationContext(), "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
-                    Log.d("uploadImg", "fail");
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getApplicationContext(), "이미지 업로드 성공", Toast.LENGTH_SHORT).show();
-//                    downloadUrl[0] = storageRef.getDownloadUrl().toString();
-//                    Log.d("downloadUrl", downloadUrl[0]);
-                }
-            });
+//            UploadTask uploadTask = storageRef.putFile(imageUri);
+//            uploadTask.addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Toast.makeText(getApplicationContext(), "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
+//                    Log.d("uploadImg", "fail");
+//                }
+//            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    Toast.makeText(getApplicationContext(), "이미지 업로드 성공", Toast.LENGTH_SHORT).show();
+////                    downloadUrl[0] = storageRef.getDownloadUrl().toString();
+////                    Log.d("downloadUrl", downloadUrl[0]);
+//                }
+//            });
 
             // upload result - realtime
-            SimpleDateFormat day = new SimpleDateFormat("yyyyMMddHHmmss");
-            Date date = new Date();
+//            SimpleDateFormat day = new SimpleDateFormat("yyyyMMddHHmmss");
+//            Date date = new Date();
             Map<String, Object> childUpdates = new HashMap<>();
             Map<String, Object> postValues = null;
 
             String type = "HTP";
-            TestData testData = new TestData(type, "path", Long.parseLong(day.format(date)), resultStr);
+            String[] temp = resultStr.split("\\|");
+            Long score = Long.parseLong(temp[0]);
+            String sentimentWord = temp[1];
+            String resultSentence = temp[2];
+            TestData testData = new TestData(type, Long.parseLong(dateFormat), resultSentence, score, sentimentWord);
             postValues = testData.toMap();
-            childUpdates.put("/TestData/" + UID + "/" + day.format(date), postValues);
+            childUpdates.put("/TestData/" + UID + "/" + dateFormat, postValues);
 //            childUpdates.put("/TestData/" + UID, postValues);
             mDatabase.updateChildren(childUpdates);
 
