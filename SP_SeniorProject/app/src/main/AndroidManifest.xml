@@ -54,6 +54,8 @@
         <activity android:name=".HTPresult" />
         <activity android:name=".TestRecord" />
         <activity android:name=".JournalRecord" />
+        <activity android:name=".BarChartActivity"/>
+        <activity android:name=".PieChartActivity"/>
         <activity
             android:name=".Alert123"
             android:theme="@style/AppTheme.CustomTheme" />
