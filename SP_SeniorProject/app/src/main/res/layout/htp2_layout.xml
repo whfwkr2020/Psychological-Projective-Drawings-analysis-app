@@ -48,7 +48,7 @@
             android:layout_height="match_parent" />
 
         <Button
-            android:id="@+id/toperson"
+            android:id="@+id/submithtp"
             android:layout_width="0dp"
             android:layout_weight="17"
             android:layout_height="22dp"

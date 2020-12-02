@@ -33,8 +33,8 @@ import java.util.Map;
 
 public class HTPresult extends AppCompatActivity {
     private static final String TAG = "HTPresult";
-    TextView input01;
     TextView resultText;
+    PieChart pieChart;
 
     //Firebase - user data
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -43,8 +43,10 @@ public class HTPresult extends AppCompatActivity {
 
     //firebase - realtime
     private FirebaseDatabase mDatabase;
-//    private DatabaseReference mReference;
+    //    private DatabaseReference mReference;
 //    private ChildEventListener mChild;
+    DatabaseReference myRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,53 +68,58 @@ public class HTPresult extends AppCompatActivity {
         resultText = (TextView) findViewById(R.id.result);
         resultText.setText("결과를 불러오는 중입니다.");
 
+        pieChart = findViewById(R.id.piechart);
+
         Intent intent = getIntent();
-        String date = intent.getStringExtra("dateString");
-        showResult(date);
+        String date1 = intent.getStringExtra("HTP1date");
+        String date2 = intent.getStringExtra("HTP2date");
+        String date3 = intent.getStringExtra("HTP3date");
+        showResult(date1,date2,date3);
 
 //        resultText.setText(date);
 //        Toast.makeText(getApplicationContext(), date, Toast.LENGTH_SHORT).show();
 
 
-
-
-
     }
 
-    private void showResult(final String dateStr) {
+    private void showResult(final String dateStr1, final String dateStr2, final String dateStr3) {
         mDatabase = FirebaseDatabase.getInstance();
 //        DatabaseReference myRef = mDatabase.getReference(UID).child(dateStr);
 //        DatabaseReference myRef = mDatabase.getReference(UID);
-        final DatabaseReference[] myRef = {mDatabase.getReference("TestData").child(UID).child(dateStr)};
-        Log.d("TestdataNull", "dateStr=" + dateStr);
-
+        final DatabaseReference[] myRef1 = {mDatabase.getReference("TestData").child(UID).child(dateStr1)};
+        final DatabaseReference[] myRef2 = {mDatabase.getReference("TestData").child(UID).child(dateStr2)};
+        final DatabaseReference[] myRef3 = {mDatabase.getReference("TestData").child(UID).child(dateStr3)};
+        final String[] finalSentenceResult = {""};
+        final String[] finalWordResult = {""};
         // Add value event listener to the post
+
         ValueEventListener testDataListener = new ValueEventListener() {
+            String temp1 = "";
+            String temp2 = "";
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
                 TestData testData = dataSnapshot.getValue(TestData.class);
-                if (testData == null){
+                if (testData == null) {
 //                    testData = dataSnapshot.getValue(TestData.class);
                     Log.d("TestdataNull", "null");
-                    myRef[0] = mDatabase.getReference("TestData").child(UID).child(dateStr);
-                }
-                else {
+                    myRef1[0] = mDatabase.getReference("TestData").child(UID).child(dateStr1);
+                    myRef2[0] = mDatabase.getReference("TestData").child(UID).child(dateStr2);
+                    myRef3[0] = mDatabase.getReference("TestData").child(UID).child(dateStr3);
+                } else {
                     Log.d("TestdataNull", "not Null");
                     Map<String, Object> result = testData.toMap();
-                    resultText.setText((CharSequence) result.get("resultSentence").toString().replace("-", "\n"));
-                    showPieChart(result.get("sentimentWord"));
+                    temp1 = result.get("resultSentence").toString().replace("-", "\n");
+//                    resultText.setText((CharSequence) result.get("resultSentence").toString().replace("-", "\n"));
+//                    showPieChart(result.get("sentimentWord"));
+                    temp2 = result.get("sentimentWord").toString();
+                    finalSentenceResult[0] +=temp1;
+                    finalWordResult[0] +=temp2;
                 }
 
-
-                // [START_EXCLUDE]
-//                binding.postAuthorLayout.postAuthor.setText(post.author);
-//                binding.postTextLayout.postTitle.setText(post.title);
-//                binding.postTextLayout.postBody.setText(post.body);
-//                Map<String, Object> result = testData.toMap();
-//                resultText.setText((CharSequence) result.get("resultSentence"));
-                // [END_EXCLUDE]
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -124,15 +131,55 @@ public class HTPresult extends AppCompatActivity {
                 // [END_EXCLUDE]
             }
         };
-        myRef[0].addValueEventListener(testDataListener);
+
+        ValueEventListener chartListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                TestData testData = dataSnapshot.getValue(TestData.class);
+                if (testData == null) {
+//                    testData = dataSnapshot.getValue(TestData.class);
+                    Log.d("TestdataNull", "null");
+                    myRef1[0] = mDatabase.getReference("TestData").child(UID).child(dateStr1);
+                    myRef2[0] = mDatabase.getReference("TestData").child(UID).child(dateStr2);
+                    myRef3[0] = mDatabase.getReference("TestData").child(UID).child(dateStr3);
+                } else {
+                    Log.d("TestdataNull", "not Null");
+                    Map<String, Object> result = testData.toMap();
+                    String temp1=finalSentenceResult[0];
+                    String temp2=finalWordResult[0];
+                    resultText.setText(temp1);
+                    showPieChart(temp2);
+
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // [START_EXCLUDE]
+                Toast.makeText(getApplicationContext(), "Failed to load post.",
+                        Toast.LENGTH_SHORT).show();
+                // [END_EXCLUDE]
+            }
+        };
+        myRef1[0].addValueEventListener(testDataListener);
+        myRef2[0].addValueEventListener(testDataListener);
+        myRef3[0].addValueEventListener(testDataListener);
+        myRef3[0].addValueEventListener(chartListener);
+
+
     }
 
-    private void showPieChart(Object word) {
+    private void showPieChart(String word) {
         PieChart pieChart = findViewById(R.id.piechart);
-        String words = word.toString();
+        String words = word;
         Log.d("showPieChart", "words=" + words);
         String[] temp = words.split(" ");
-        for(int i = 0; i < temp.length; i++) {
+        for (int i = 0; i < temp.length; i++) {
             Log.d("showPieChart", "temp[" + i + "]=" + temp[i]);
         }
 
@@ -141,9 +188,8 @@ public class HTPresult extends AppCompatActivity {
         for (int i = 0; i < temp.length; i++) {
             if (wordNum.containsKey(temp[i])) {
                 int n = wordNum.get(temp[i]);
-                wordNum.replace(temp[i], n+1);
-            }
-            else
+                wordNum.replace(temp[i], n + 1);
+            } else
                 wordNum.put(temp[i], 1);
 
         }
@@ -178,59 +224,6 @@ public class HTPresult extends AppCompatActivity {
         pieChart.animateXY(100, 100);
     }
 
-//    private void initDatabase() {
-//
-//        mDatabase = FirebaseDatabase.getInstance();
-//
-//        mReference = mDatabase.getReference("log");
-//        mReference.child("log").setValue("check");
-//
-//        mChild = new ChildEventListener() {
-//
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-////                dataSnapshot.getKey(); // will have value of String: "users", then "books"
-////                for (DataSnapshot snapshot : dataSnapshot) {
-////                    snapshot.getKey();
-////                    // if dataSnapshot.getKey() is "users", this will have value of String: "randomUserId1", then "randomUserId2"
-////                    // If dataSnapshot.getKey() is "books", this will have value of String: "bookId1", then "bookId2"
-////                    for (DataSnapshot deeperSnapshot : dataSnapshot) {
-////                        snapshot.getKey();
-////                        // if snapshot.getKey() is "randomUserId1" or "randomUserId1", this will have value of String: "display-name", then "gender"
-////                        // But the value will be different based on key
-////                        // If snapshot.getKey() is "books", this will have value of String: "title", but the value will be different based on key
-////                    }
-////                }
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        };
-//        mReference.addChildEventListener(mChild);
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        mReference.removeEventListener(mChild);
-//    }
 
 
 }
-

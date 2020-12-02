@@ -95,14 +95,14 @@ public class HTP extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // [address] 주소
-                String addr = "192.168.0.5".trim();
+                String addr = "192.168.43.238".trim();
                 // Create the Thread to connect ip address
                 thread = new ConnectThread(addr);
                 // thread run
                 thread.start();
 
-                Intent intent1 = new Intent(v.getContext(), HTPresult.class);
-                intent1.putExtra("dateString", dateFormat);
+                Intent intent1 = new Intent(v.getContext(), HTP2.class);
+                intent1.putExtra("HTP1date", dateFormat);
                 startActivity(intent1);
             }
         });
@@ -182,6 +182,8 @@ public class HTP extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "폴더가 생성되었습니다.", Toast.LENGTH_SHORT).show();
 
                 }
+
+                Toast.makeText(getApplicationContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show();
 
                 FileOutputStream fos = null;
                 try {
@@ -458,7 +460,7 @@ public class HTP extends AppCompatActivity {
                 Log.d("돼라", "??");
 
                 String result = new String(obj.readUTF());
-//                Log.d("newUTF", result);        //test
+                Log.d("newUTF", result);        //test
                 storeResult(result);
 //                Log.d("ddd", "success");        //test
 
@@ -516,8 +518,9 @@ public class HTP extends AppCompatActivity {
             Map<String, Object> childUpdates = new HashMap<>();
             Map<String, Object> postValues = null;
 
-            String type = "HTP";
-            String[] temp = resultStr.split("\\|");
+            String type = "HTPhouse";
+//            String[] temp = resultStr.split("\\|");
+            String[] temp = resultStr.split("/");
             Long score = Long.parseLong(temp[0]);
             String sentimentWord = temp[1];
             String resultSentence = temp[2];
