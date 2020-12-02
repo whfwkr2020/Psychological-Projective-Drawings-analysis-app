@@ -281,7 +281,6 @@ public class HTP extends AppCompatActivity {
         colorPicker.show();
     }
 
-    //////////////////////////////// 추가 /////////////////////////////////////
     private String getRealPathFromURI(Uri contentURI) {
         String result;
         Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);

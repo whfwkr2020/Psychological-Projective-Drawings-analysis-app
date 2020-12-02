@@ -195,13 +195,6 @@ public class HTPresult extends AppCompatActivity {
         }
 
         ArrayList NoOfEmp = new ArrayList();
-//        NoOfEmp.add(new BarEntry(30f, 0));
-//        NoOfEmp.add(new BarEntry(60f, 1));
-//        NoOfEmp.add(new BarEntry(40f, 2));
-//        NoOfEmp.add(new BarEntry(10f, 3));
-//        NoOfEmp.add(new BarEntry(50f, 4));
-//        NoOfEmp.add(new BarEntry(80f, 5));
-//        NoOfEmp.add(new BarEntry(60f, 6));
         PieDataSet dataSet = new PieDataSet(NoOfEmp, "심리의 종류");
 
         ArrayList sensitive = new ArrayList();
