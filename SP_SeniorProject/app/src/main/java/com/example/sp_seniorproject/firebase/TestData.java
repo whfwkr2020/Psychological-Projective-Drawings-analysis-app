@@ -6,7 +6,7 @@ import java.util.Map;
 public class TestData {
     public String type;         // Test type: HTP, PITR
 //    public String imgPath;      // img name: /route/CaptureyyyyMMHHmmss.jpeg
-    public Long date;         // The date of the test: yyyyMMHHmmss
+    public Long date;         // The date of the test: yyyyMMHH
     public String resultSentence;       // The result of the test
     public Long score;              // The score of the test
     public String sentimentWord;    // word indicating emotional state

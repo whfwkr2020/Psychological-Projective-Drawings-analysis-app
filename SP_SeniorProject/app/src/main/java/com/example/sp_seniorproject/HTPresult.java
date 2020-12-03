@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.sp_seniorproject.firebase.ScoreData;
 import com.example.sp_seniorproject.firebase.TestData;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarEntry;
@@ -26,7 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,11 +94,13 @@ public class HTPresult extends AppCompatActivity {
         final DatabaseReference[] myRef3 = {mDatabase.getReference("TestData").child(UID).child(dateStr3)};
         final String[] finalSentenceResult = {""};
         final String[] finalWordResult = {""};
+        final int[] finalscoreResult = {0};
         // Add value event listener to the post
 
         ValueEventListener testDataListener = new ValueEventListener() {
             String temp1 = "";
             String temp2 = "";
+            long temp3 = 0;
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,8 +119,10 @@ public class HTPresult extends AppCompatActivity {
 //                    resultText.setText((CharSequence) result.get("resultSentence").toString().replace("-", "\n"));
 //                    showPieChart(result.get("sentimentWord"));
                     temp2 = result.get("sentimentWord").toString();
+                    temp3 = (long) result.get("score");
                     finalSentenceResult[0] +=temp1;
                     finalWordResult[0] +=temp2;
+                    finalscoreResult[0] += temp3;
                 }
 
             }
@@ -148,6 +155,8 @@ public class HTPresult extends AppCompatActivity {
                     Map<String, Object> result = testData.toMap();
                     String temp1=finalSentenceResult[0];
                     String temp2=finalWordResult[0];
+                    storeScoreSum(finalscoreResult[0]);
+
                     resultText.setText(temp1);
                     showPieChart(temp2);
 
@@ -217,6 +226,27 @@ public class HTPresult extends AppCompatActivity {
         pieChart.animateXY(100, 100);
     }
 
+    public void storeScoreSum (int sum) {
+        //Firebase - realtime
+        DatabaseReference mDB = FirebaseDatabase.getInstance().getReference();
+
+        // upload result - realtime
+        SimpleDateFormat year = new SimpleDateFormat("yyyy");
+        SimpleDateFormat month = new SimpleDateFormat("MM");
+        SimpleDateFormat day = new SimpleDateFormat("dd");
+
+        Date date = new Date();
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+
+        ScoreData scoreData = new ScoreData(Long.parseLong(day.format(date)), (long)sum);
+//        ScoreData scoreData = new ScoreData((long) 29, (long) 5);     // to make data
+        postValues = scoreData.toMap();
+        childUpdates.put("/ScoreData/" + UID + "/" + year.format(date) + "/" + month.format(date) + "/" + day.format(date), postValues);
+//        childUpdates.put("/ScoreData/" + UID + "/" + year.format(date) + "/" + 11 + "/" + "29", postValues);      // to make data
+        mDB.updateChildren(childUpdates);
+
+    }
 
 
 }

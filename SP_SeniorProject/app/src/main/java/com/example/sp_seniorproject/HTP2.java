@@ -92,7 +92,7 @@ public class HTP2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // [address] 주소
-                String addr = "192.168.43.238".trim();
+                String addr = "192.168.0.5".trim();
                 // Create the Thread to connect ip address
                 thread = new HTP2.ConnectThread(addr);
                 // thread run
@@ -102,7 +102,7 @@ public class HTP2 extends AppCompatActivity {
                 String date = intent.getStringExtra("HTP1date");
                 Intent intent1 = new Intent(v.getContext(), HTP3.class);
                 intent1.putExtra("HTP1date", date);
-                intent1.putExtra("HTP2date", dateFormat);
+                intent1.putExtra("HTP2date", dateFormat.substring(0, 8) + 2);
                 startActivity(intent1);
             }
         });
@@ -525,9 +525,9 @@ public class HTP2 extends AppCompatActivity {
             Long score = Long.parseLong(temp[0]);
             String sentimentWord = temp[1];
             String resultSentence = temp[2];
-            TestData testData = new TestData(type, Long.parseLong(dateFormat), resultSentence, score, sentimentWord);
+            TestData testData = new TestData(type, Long.parseLong(dateFormat.substring(0, 8) + 2), resultSentence, score, sentimentWord);
             postValues = testData.toMap();
-            childUpdates.put("/TestData/" + UID + "/" + dateFormat, postValues);
+            childUpdates.put("/TestData/" + UID + "/" + dateFormat.substring(0, 8) + 2, postValues);
 //            childUpdates.put("/TestData/" + UID, postValues);
             mDatabase.updateChildren(childUpdates);
 

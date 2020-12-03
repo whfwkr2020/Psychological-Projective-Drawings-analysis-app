@@ -91,7 +91,7 @@ public class HTP3 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // [address] 주소
-                String addr = "192.168.43.238".trim();
+                String addr = "192.168.0.5".trim();
                 // Create the Thread to connect ip address
                 thread = new HTP3.ConnectThread(addr);
                 // thread run
@@ -104,7 +104,7 @@ public class HTP3 extends AppCompatActivity {
                 Intent intent1 = new Intent(v.getContext(), HTPresult.class);
                 intent1.putExtra("HTP1date", date1);
                 intent1.putExtra("HTP2date", date2);
-                intent1.putExtra("HTP3date", dateFormat);
+                intent1.putExtra("HTP3date", dateFormat.substring(0, 8) + 3);
                 startActivity(intent1);
             }
         });
@@ -527,9 +527,9 @@ public class HTP3 extends AppCompatActivity {
             Long score = Long.parseLong(temp[0]);
             String sentimentWord = temp[1];
             String resultSentence = temp[2];
-            TestData testData = new TestData(type, Long.parseLong(dateFormat), resultSentence, score, sentimentWord);
+            TestData testData = new TestData(type, Long.parseLong(dateFormat.substring(0, 8) + 3), resultSentence, score, sentimentWord);
             postValues = testData.toMap();
-            childUpdates.put("/TestData/" + UID + "/" + dateFormat, postValues);
+            childUpdates.put("/TestData/" + UID + "/" + dateFormat.substring(0, 8) + 3, postValues);
 //            childUpdates.put("/TestData/" + UID, postValues);
             mDatabase.updateChildren(childUpdates);
 

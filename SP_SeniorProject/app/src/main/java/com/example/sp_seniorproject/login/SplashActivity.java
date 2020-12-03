@@ -5,16 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.example.sp_seniorproject.MainActivity;
 import com.example.sp_seniorproject.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashActivity extends AppCompatActivity {
+    //Firebase - user data
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        Toast.makeText(getApplicationContext(), currentUser.getDisplayName() + "님 환영합니다", Toast.LENGTH_SHORT).show();
 
         Handler hd = new Handler();
         hd.postDelayed(new splashHandler(), 3000); // 1초 후에 hd handler 실행  3000ms = 3초

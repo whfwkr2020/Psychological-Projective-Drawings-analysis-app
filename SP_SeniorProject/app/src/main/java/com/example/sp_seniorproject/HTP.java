@@ -95,14 +95,14 @@ public class HTP extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // [address] 주소
-                String addr = "192.168.43.238".trim();
+                String addr = "192.168.0.5".trim();
                 // Create the Thread to connect ip address
                 thread = new ConnectThread(addr);
                 // thread run
                 thread.start();
 
                 Intent intent1 = new Intent(v.getContext(), HTP2.class);
-                intent1.putExtra("HTP1date", dateFormat);
+                intent1.putExtra("HTP1date", dateFormat.substring(0, 8) + 1);
                 startActivity(intent1);
             }
         });
@@ -523,13 +523,14 @@ public class HTP extends AppCompatActivity {
             Long score = Long.parseLong(temp[0]);
             String sentimentWord = temp[1];
             String resultSentence = temp[2];
-            TestData testData = new TestData(type, Long.parseLong(dateFormat), resultSentence, score, sentimentWord);
+            TestData testData = new TestData(type, Long.parseLong(dateFormat.substring(0, 8) + 1), resultSentence, score, sentimentWord);
             postValues = testData.toMap();
-            childUpdates.put("/TestData/" + UID + "/" + dateFormat, postValues);
+//            Log.d("HTP123",  dateFormat.substring(0, 8) + "1");
+            childUpdates.put("/TestData/" + UID + "/" + dateFormat.substring(0, 8) + "1", postValues);
 //            childUpdates.put("/TestData/" + UID, postValues);
             mDatabase.updateChildren(childUpdates);
 
-//            Toast.makeText(getApplicationContext(), "결과 업로드 완료", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "결과 업로드 완료" + dateFormat.substring(0, 7) + 1, Toast.LENGTH_SHORT).show();
         }
 
     }
