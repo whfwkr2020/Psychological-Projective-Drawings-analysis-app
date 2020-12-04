@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button menumenu, alert, test, journal, mypage;
+    Button alert, test, journal, mypage;
     Button mapBtn;
 
     @Override
@@ -21,17 +21,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        menumenu = findViewById(R.id.menu);
         alert = findViewById(R.id.alert);
         test = findViewById(R.id.test);
         journal = findViewById(R.id.journal);
         mypage = findViewById(R.id.mypage);
 
-        menumenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        }); //메뉴 버튼 선택시
 
         alert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(v.getContext(), Test.class);
+                Intent intent1 = new Intent(v.getContext(), HTP.class);
                 startActivity(intent1);
                 overridePendingTransition(0, 0);
             }

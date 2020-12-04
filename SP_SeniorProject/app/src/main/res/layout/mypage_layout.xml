@@ -56,19 +56,6 @@
                 />
 
             <Button
-                android:id="@+id/my"
-                android:layout_width="0dp"
-                android:layout_weight="110"
-                android:layout_height="50dp"
-                android:background="@drawable/userselect" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="20"
-                android:layout_height="match_parent"
-                />
-
-            <Button
                 android:id="@+id/testrecord"
                 android:layout_width="0dp"
                 android:layout_weight="110"

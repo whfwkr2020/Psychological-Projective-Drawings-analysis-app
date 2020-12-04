@@ -26,14 +26,6 @@
             android:layout_height="match_parent"
             />
 
-        <Button
-            android:id="@+id/menu"
-            android:layout_width="0dp"
-            android:layout_weight="23"
-            android:layout_height="match_parent"
-            android:background="@drawable/menu"
-            android:gravity="left" />
-
         <TextView
             android:layout_width="0dp"
             android:layout_weight="318"
@@ -69,7 +61,7 @@
             android:background="#00ff0000"
             android:fontFamily="casual"
             android:gravity="center"
-            android:text="심리테스트"
+            android:text="심리테스트 - HTP"
             android:textColor="@color/textColor"
             android:textSize="20dp"
             android:visibility="visible" />
@@ -80,7 +72,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="그림일기" 
+            android:text="그림일기"
             android:textColor="@color/textColor"
             android:textSize="20dp"
             android:fontFamily="casual"

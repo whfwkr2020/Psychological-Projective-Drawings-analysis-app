@@ -86,7 +86,7 @@ public class HTP extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(v.getContext(), Test.class);
+                Intent intent1 = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent1);
             }
         });

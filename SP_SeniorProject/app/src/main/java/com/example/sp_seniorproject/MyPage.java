@@ -1,8 +1,6 @@
-package com.example.sp_seniorproject;
+package com.example.team2020;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,25 +8,21 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.FragmentManager;
 
 public class MyPage extends AppCompatActivity {
 
-    Button menu, user, test, journal;
-
-    public static Activity mypage;
+    Button menu, test, journal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage_layout);
 
-        mypage = MyPage.this;
-
-        MyPageFragment1 fragment1 = new MyPageFragment1();
-        changeFragment(fragment1);
+        MyPageFragment2 fragment2 = new MyPageFragment2();
+        changeFragment(fragment2);
 
         menu = findViewById(R.id.menu);
-        user = findViewById(R.id.my);
         test = findViewById(R.id.testrecord);
         journal = findViewById(R.id.journalrecord);
 
@@ -36,18 +30,11 @@ public class MyPage extends AppCompatActivity {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              mypage.finish();
-               overridePendingTransition(0, 0);
+                Intent intent10 = new Intent(v.getContext(), MainActivity.class);
+                startActivity(intent10);
             }
         }); //menu 버튼 선택시
 
-        user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyPageFragment1 fragment1 = new MyPageFragment1();
-                changeFragment(fragment1);
-            }
-        }); //user 버튼 선택시
 
         test.setOnClickListener(new View.OnClickListener() {
             @Override
