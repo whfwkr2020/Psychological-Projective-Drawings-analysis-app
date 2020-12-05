@@ -3,7 +3,7 @@ Psychological-Projective-Drawings-analysis-app<a name="TOP"></a>
 
 Psychological-Projective-Drawings-analysis-app is psychological test & drawing journal application.
 
-It is written in Java and built by android studio.
+It is written in Java and built on android studio.
 
 ## Main features
 * Supports google login
