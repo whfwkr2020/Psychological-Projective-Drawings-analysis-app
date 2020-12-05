@@ -1,4 +1,4 @@
-package com.example.team2020;
+package com.example.sp_seniorproject;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;

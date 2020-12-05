@@ -155,18 +155,18 @@ public class MyPageFragment2 extends Fragment {
 
 //                        for (DataSnapshot childDay : childMonth.getChildren()) {     // day
 //                            Log.d(TAG, "onChildAdded:" + childDay.getKey());
-                            ScoreData scoreData = childMonth.getValue(ScoreData.class);
-                            Map<String, Object> data = scoreData.toMap();
+                        ScoreData scoreData = childMonth.getValue(ScoreData.class);
+                        Map<String, Object> data = scoreData.toMap();
 //                            Toast.makeText(getContext(), "4:" + data.get("date") + ", " + data.get("score"), Toast.LENGTH_SHORT).show();
 
 
 //                            BarChart chart = new BarChart(getContext());
 //                            ArrayList scorelist = new ArrayList();
                         BarEntry barEntry = new BarEntry(Float.parseFloat(data.get("score").toString()), index++);
-                            scorelist.add(barEntry);
+                        scorelist.add(barEntry);
 
 //                            ArrayList datelist = new ArrayList();
-                            datelist.add(data.get("date").toString());
+                        datelist.add(data.get("date").toString());
 //                            TestRecordData testRecordData = new TestRecordData(childYear.getKey(), chart, NoOfEmp, sensitive);
 //                            adapter.addItem(testRecordData);
 
