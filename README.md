@@ -27,3 +27,16 @@ It is written in Java and built on android studio.
 [<img src="https://user-images.githubusercontent.com/64185453/101239473-23e0f980-372b-11eb-9bee-b8554efc17d0.jpg" width=160>](https://user-images.githubusercontent.com/64185453/101239473-23e0f980-372b-11eb-9bee-b8554efc17d0.jpg)
 [<img src="https://user-images.githubusercontent.com/64185453/101239487-39562380-372b-11eb-9664-37dfc12e9eda.jpg" width=160>](https://user-images.githubusercontent.com/64185453/101239487-39562380-372b-11eb-9664-37dfc12e9eda.jpg)
 [<img src="https://user-images.githubusercontent.com/64185453/101239467-1af02800-372b-11eb-89af-c74eab7bc88f.jpg" width=160>](https://user-images.githubusercontent.com/64185453/101239467-1af02800-372b-11eb-89af-c74eab7bc88f.jpg)
+
+
+
+## model learning
+
+Reference: https://github.com/AlexeyAB/darknet
+
+Environment: linux
+
+## How to train (to detect drawing objects)
+
+
+
