@@ -55,7 +55,7 @@ Requirements
 7. Create file train.txt in directory build\darknet\x64\data\, with filenames of your images, each filename in new line, with path relative to darknet.exe, for example python code containing: [train.txt](./files/train.txt) 
 * python code : [train_txt.py](./Label_Data/train_txt.py) & [test_txt.py](./Label_Data/test_txt.py)
 9. To train on Linux use command: ./darknet detector train data/obj.data yolo-obj.cfg yolov4.conv.137 (just use ./darknet instead of darknet.exe)
-10. After training is complete - get result yolo-obj_final.weights from path build\darknet\x64\backup\ :
+10. After training is complete - get result yolo-obj_final.weights from path build\darknet\x64\backup\ : [weight](https://drive.google.com/drive/folders/1w71kSiztS5bpGLLQyvpZTCDcB4-kQAho?usp=sharing)
 
 
 
