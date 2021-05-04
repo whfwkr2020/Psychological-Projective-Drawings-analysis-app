@@ -50,10 +50,12 @@ Requirements
 2. Create file obj.names in the directory build\darknet\x64\data\, with objects names - each in new line: [obj.names](./files/obj.names)
 3. Create file obj.data in the directory build\darknet\x64\data\, containing (where classes = number of objects): [obj.data](./files/obj.data)
 4. Put image-files (.jpg) of your objects in the directory build\darknet\x64\data\obj\:  
-5. You should label each object on images from your dataset. Use this visual GUI-software for marking bounded boxes of objects and generating annotation files for Yolo v2 & v3 :  https://github.com/tzutalin/labelImg
-6. Create file train.txt in directory build\darknet\x64\data\, with filenames of your images, each filename in new line, with path relative to darknet.exe, for example python code containing: [train.txt](./files/train.txt)
-7. To train on Linux use command: ./darknet detector train data/obj.data yolo-obj.cfg yolov4.conv.137 (just use ./darknet instead of darknet.exe)
-8. After training is complete - get result yolo-obj_final.weights from path build\darknet\x64\backup\ :
+5. You should label each object on images from your dataset. Use this visual GUI-software for marking bounded boxes of objects and generating annotation files for Yolo v2 & v3 :  https://github.com/tzutalin/labelImg 
+* dataset: [Img.zip](./Label_Data/Img.zip)
+7. Create file train.txt in directory build\darknet\x64\data\, with filenames of your images, each filename in new line, with path relative to darknet.exe, for example python code containing: [train.txt](./files/train.txt) 
+* python code : [train_txt.py](./Label_Data/train_txt.py) & [test_txt.py](./Label_Data/test_txt.py)
+9. To train on Linux use command: ./darknet detector train data/obj.data yolo-obj.cfg yolov4.conv.137 (just use ./darknet instead of darknet.exe)
+10. After training is complete - get result yolo-obj_final.weights from path build\darknet\x64\backup\ :
 
 
 
