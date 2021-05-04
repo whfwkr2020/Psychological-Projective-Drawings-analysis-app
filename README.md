@@ -60,7 +60,7 @@ Requirements
 
 
 * Loss Function image
-</n>
+
 [<img src="https://user-images.githubusercontent.com/57584426/116976606-5acc3300-acfc-11eb-93c4-44cafbdad78c.png" width=500>](https://user-images.githubusercontent.com/64185453/101239467-1af02800-372b-11eb-89af-c74eab7bc88f.jpg)
 
 
