@@ -58,5 +58,6 @@ Requirements
 
 
 Loss Function image
-<>
+![chart_yolo-obj](https://user-images.githubusercontent.com/57584426/116976606-5acc3300-acfc-11eb-93c4-44cafbdad78c.png)
+
 
