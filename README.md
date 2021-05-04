@@ -30,13 +30,33 @@ It is written in Java and built on android studio.
 
 
 
-## model learning
+## Model
+
+Model Name: darknet (yolov4)
 
 Reference: https://github.com/AlexeyAB/darknet
 
-Environment: linux
+Environment
+* OS: linux (Ubuntu 18.04 LTS)
+* GUP: Titan RTX
 
-## How to train (to detect drawing objects)
+Requirements
+* cmake >= 3.18
+* OpenCV >= 2.4
+* cuDNN >= 8.0.2
+* CUDA >= 10.2
+
+1. Create file yolo-obj.cfg with the same content as in yolov4-custom.cfg (or copy yolov4-custom.cfg to yolo-obj.cfg):
+2. Create file obj.names in the directory build\darknet\x64\data\, with objects names - each in new line:
+3. Create file obj.data in the directory build\darknet\x64\data\, containing (where classes = number of objects):
+4. Put image-files (.jpg) of your objects in the directory build\darknet\x64\data\obj\ :
+5. You should label each object on images from your dataset. Use this visual GUI-software for marking bounded boxes of objects and generating annotation files for Yolo v2 & v3 :  https://github.com/tzutalin/labelImg
+6. Create file train.txt in directory build\darknet\x64\data\, with filenames of your images, each filename in new line, with path relative to darknet.exe, for example python code containing: 
+7. To train on Linux use command: ./darknet detector train data/obj.data yolo-obj.cfg yolov4.conv.137 (just use ./darknet instead of darknet.exe)
+8. After training is complete - get result yolo-obj_final.weights from path build\darknet\x64\backup\ :
 
 
+
+Loss Function image
+<>
 
