@@ -64,4 +64,49 @@ Requirements
 [<img src="https://user-images.githubusercontent.com/57584426/116976606-5acc3300-acfc-11eb-93c4-44cafbdad78c.png" width=500>](https://user-images.githubusercontent.com/64185453/101239467-1af02800-372b-11eb-89af-c74eab7bc88f.jpg)
 
 
+## Android
+### Devolopment Environment
+- Android Studio 4.1.1
 
+### Application Version
+- minSdkVersion 25
+- targetSdkVersion 29
+
+### Firebase
+#### 1. Connect to Firebase
+(You can also check this out in the official [Firebase documentation](https://firebase.google.com/docs/android/setup).)
+1) Sign into [Firebase](https://firebase.google.com/?hl=ko) using your Google account.
+2) Create a Firebase project.
+3) Register this app(in this [folder](./SP_SeniorProject)) with Firebase.<br>
+   <u>***ADD SHA-1 key***</u><br>
+   (1) Open Android Studio<br>
+   (2) Click the Gradle button in the upper right.<br>
+   (3) app -> Tasks -> android -> signingReport<br>
+   (4) Copy **SHA1**<br>
+4) Add a Firebase configuration file
+
+#### 2. Authentication - Google Login
+After signing up/logging in, you can check uer information in [Firebase](https://firebase.google.com/) -> your project -> Authentication -> Users.<br>
+Using this function, store user information and get UID.<br>
+
+#### 3. Realtime Database
+Using Realtime DB to store Test Result.<br>
+
+```
+└── project
+    ├── TestData
+    │   └── UID
+    │       └── data (yyyyMMdd_)
+    │           ├── data: date of test
+    │           ├── resultSentence: analysis result
+    │           ├── score: HTP score
+    │           ├── sentimentWord: analysis result
+    │           └── type: house, tree, person
+    └── ScroreData
+        └── UID
+            └── year
+                └── month
+                    └── date
+                        └── date
+                        └── score: 0~13
+```
